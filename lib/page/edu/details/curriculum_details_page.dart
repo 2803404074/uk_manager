@@ -3,7 +3,8 @@
 import 'package:flutter/material.dart';
 
 class CurriculumDetailsPage extends StatefulWidget {
-  const CurriculumDetailsPage({Key? key}) : super(key: key);
+  final int cId;
+  const CurriculumDetailsPage({Key? key,required this.cId}) : super(key: key);
 
   @override
   State<CurriculumDetailsPage> createState() => _CurriculumDetailsPageState();

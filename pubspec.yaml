@@ -30,6 +30,11 @@ dependencies:
   flutter:
     sdk: flutter
   provider: ^6.0.1
+  comment:
+    path: ./comment
+  httplib:
+    path: ./httplib
+  cached_network_image: ^3.2.0
 
 
   # The following adds the Cupertino Icons font to your application.

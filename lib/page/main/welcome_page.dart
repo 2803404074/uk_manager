@@ -2,6 +2,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:uk_manager/router/main_routers.dart';
 
 import 'index_page.dart';
 
@@ -102,9 +103,7 @@ class _WelcomePageState extends State<WelcomePage> {
                   if(codeLogin)
                     InkWell(
                       onTap: (){
-
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>const IndexPage()));
-
+                        Navigator.pushNamed(context, MainRouter.indexPage);
                       },
                       child: Container(
                         alignment: Alignment.center,
