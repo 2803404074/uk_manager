@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:uk_manager/page/edu/details/curriculum_details_page.dart';
+import 'package:uk_manager/page/curriculum/details/curriculum_details_page.dart';
 import 'package:uk_manager/router/main_routers.dart';
 
 import '../../../widget/u_image.dart';
