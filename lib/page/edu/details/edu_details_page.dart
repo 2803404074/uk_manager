@@ -1,7 +1,5 @@
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:uk_manager/page/edu/model/edu_model.dart';
 
 class EduDetailsPage extends StatefulWidget {
   final int eId;
@@ -16,10 +14,10 @@ class _EduDetailsPageState extends State<EduDetailsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('私教申请详情'),
+        title: const Text('私教申请详情'),
       ),
       body: Padding(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,7 +41,7 @@ class _EduDetailsPageState extends State<EduDetailsPage> {
               const SizedBox(height: 20,),
 
               _buildTitle('入驻信息'),
-              Text('跳舞，两年'),
+
 
               Text('私教资质'),
               SingleChildScrollView(
@@ -70,7 +68,7 @@ class _EduDetailsPageState extends State<EduDetailsPage> {
                   )),
                 ),
               ),
-
+              Text('经验: 跳舞，两年'),
               Text('真实姓名：xxx'),
               Text('手机号：xxx'),
               Text('身份证号：xxx'),

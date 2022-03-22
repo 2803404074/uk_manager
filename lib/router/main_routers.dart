@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:uk_manager/page/main/index_page.dart';
 import 'package:uk_manager/page/main/welcome_page.dart';
 
+import '../page/adv/details/adv_add_edit_page.dart';
+import '../page/adv/details/adv_details_page.dart';
 import '../page/curriculum/details/curriculum_details_page.dart';
 import '../page/edu/details/edu_details_page.dart';
 
@@ -16,7 +18,14 @@ class MainRouter {
   static const String curriculumDetailsPage = 'curriculumDetailsPage';
 
   ///私教详情
-  static const String eduListDetailsPage = 'eduListDetailsPage';
+  static const String eduDetailsPage = 'eduListDetailsPage';
+
+
+  ///广告详情
+  static const String advDetailsPage = 'advDetailsPage';
+  ///添加或修改广告
+  static const String advAddEditPage = 'advAddEditPage';
+
 
 
   static Map<String, WidgetBuilder> mainRouters() {
@@ -26,8 +35,14 @@ class MainRouter {
       curriculumDetailsPage: (context, {arguments}) => CurriculumDetailsPage(
         cId: arguments['cId'],
       ),
-      eduListDetailsPage: (context, {arguments}) => EduDetailsPage(
+      eduDetailsPage: (context, {arguments}) => EduDetailsPage(
         eId: arguments['eId'],
+      ),
+      advDetailsPage: (context, {arguments}) => AdvDetailsPage(
+        tId: arguments['tId'],
+      ),
+      advAddEditPage: (context, {arguments}) => const AdvAddEditPage(
+
       ),
 
     };

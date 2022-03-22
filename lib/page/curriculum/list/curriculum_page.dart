@@ -1,9 +1,7 @@
 
+import 'package:comment/bean/res/curriculum_vo.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:uk_manager/page/curriculum/details/curriculum_details_page.dart';
-import 'package:uk_manager/router/main_routers.dart';
-
 import '../../../widget/u_image.dart';
 import 'curriculum_model.dart';
 
@@ -16,6 +14,13 @@ class CurriculumPage extends StatefulWidget {
 
 class _CurriculumPageState extends State<CurriculumPage>
     with AutomaticKeepAliveClientMixin {
+
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -24,11 +29,8 @@ class _CurriculumPageState extends State<CurriculumPage>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
-            height: 20,
-          ),
-
-
+          const Text('课程管理',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),),
+          const SizedBox(height: 10,),
           Selector<CurriculumModel,int>(builder: (context,value,child){
             var model = context.read<CurriculumModel>();
             return SingleChildScrollView(
@@ -53,7 +55,7 @@ class _CurriculumPageState extends State<CurriculumPage>
               ),
             );
           }, selector: (context,model)=>model.oneCurrentIndex),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Selector<CurriculumModel,int>(builder: (context,value,child){
@@ -80,7 +82,7 @@ class _CurriculumPageState extends State<CurriculumPage>
               ),
             );
           }, selector: (context,model)=>model.towCurrentIndex),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
 
@@ -108,163 +110,102 @@ class _CurriculumPageState extends State<CurriculumPage>
               ),
             );
           }, selector: (context,model)=>model.threeCurrentIndex),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
-
-          Selector<CurriculumModel,int>(builder: (context,value,child){
-            var model = context.read<CurriculumModel>();
+          Expanded(child:  Consumer<CurriculumModel>(builder: (context,model,child){
             return SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: List.generate(
-                    model.fourList.length,
-                        (index) => InkWell(
-                          onTap: (){
-                            model.changeIndex(3, index);
-                          },
-                      child: Container(
-                        child: Text('${model.fourList[index]['name']}'),
-                        margin: const EdgeInsets.only(left: 10),
-                        padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            color: value == index?Colors.orange:Colors.grey),
-                      ),
-                    )),
+              child: PaginatedDataTable(
+                columns: const [
+                  DataColumn(label: SizedBox(
+                    width: 50,
+                    child: Center(child: Text('封面'),),)),
+                  DataColumn(label: Text('标题')),
+                  DataColumn(label: Text('作者'),),
+                  DataColumn(label: Text('发布时间')),
+                  DataColumn(label: Text('状态'),),
+                  DataColumn(label: SizedBox(
+                    width: 300,
+                    child: Center(
+                      child: Text('操作'),
+                    ),
+                  ),numeric: true),
+                ],
+                source: MyDataTableSource(model.curriculumList),
               ),
             );
-          }, selector: (context,model)=>model.fourCurrentIndex),
-          SizedBox(
-            height: 10,
-          ),
-
-
-
-          Row(
-            children: [
-              SizedBox(
-                width: 10,
-              ),
-              SizedBox(
-                width: 200,
-                child: TextField(),
-              ),
-              TextButton(onPressed: () {}, child: Text('搜索'))
-            ],
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Expanded(
-              child: Consumer<CurriculumModel>(builder: (context,model,child){
-
-
-                return ListView.separated(
-                    itemCount: model.curriculumList.length,
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    itemBuilder: (context, index) {
-                      var data = model.curriculumList[index];
-                      return Row(
-                        children: [
-                          UImage(
-                          '${data.cover}',
-                            mWidth: 160,
-                            mHeight: 100,
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Expanded(
-                              child: Container(
-                                height: 100,
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      '${data.title}',
-                                      style: const TextStyle(
-                                          fontSize: 18, fontWeight: FontWeight.bold),
-                                    ),
-                                    Text('发布时间:${data.postTime}'),
-                                    Expanded(child: SizedBox()),
-                                    Text('作者:${data.nickName}       状态：${data.status==0?'审核通过':data.status == 2?'未通过':'审核通过'}'),
-                                  ],
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                ),
-                              )),
-                          TextButton(
-                              onPressed: () {
-                                Navigator.pushNamed(
-                                    context, MainRouter.curriculumDetailsPage,
-                                    arguments: {'cId': 12});
-                              },
-                              child: Text('审核')),
-                          TextButton(onPressed: () {}, child: Text('下架')),
-                        ],
-                      );
-                    },
-                    separatorBuilder: (context, index) {
-                      return Divider(
-                        height: 20,
-                        thickness: 1,
-                        color: Colors.black26,
-                      );
-                    },
-                    );
-              },)),
-
-          Selector<CurriculumModel,int>(builder: (context,value,child){
-            var model = context.read<CurriculumModel>();
-            return Container(
-              width: double.infinity,
-              alignment: Alignment.center,
-              child: Container(
-                width: MediaQuery.of(context).size.width*0.5,
-                padding: EdgeInsets.symmetric(vertical: 10),
-                margin: EdgeInsets.symmetric(vertical: 20),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    color: Colors.grey[200]
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    TextButton(onPressed: (){
-
-                    }, child: const Text('上一页')),
-                    Expanded(child: Center(child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: List.generate(10, (index) => InkWell(
-                          onTap: (){
-                            model.loadList(false,currentIndex: index);
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: model.page == index?Colors.red:null,
-                            ),
-                            child: Text('${index+1}'),
-                          ),
-                        )),
-                      ),
-                    ),)),
-                    TextButton(onPressed: (){
-
-                    }, child: const Text('下一页')),
-                  ],
-                ),
-              ),
-            );
-          }, selector: (context,model)=>model.page),
+          },))
         ],
-      ),
+      )
     );
   }
 
   @override
-  // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
+}
+
+
+class MyDataTableSource extends DataTableSource {
+  MyDataTableSource(this.data);
+
+  final List<CurriculumVo> data;
+
+  @override
+  DataRow getRow(int index) {
+
+    return DataRow.byIndex(
+      index: index,
+      cells: [
+        DataCell(
+          UImage('${data[index].cover}',mWidth: 50,mHeight: 50,margin: const EdgeInsets.symmetric(vertical: 5),),
+        ),
+        DataCell(Text('${data[index].title}')),
+        DataCell(Text('${data[index].nickName}')),
+        DataCell(Text('${data[index].postTime}')),
+        DataCell(Text('${data[index].status}')),
+
+        DataCell(SizedBox(
+          width: 300,
+          child: Center(
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                MaterialButton(
+                  child: const Text('通过'),
+                  onPressed: (){
+                  },
+                ),
+                MaterialButton(
+                  child: const Text('不通过'),
+                  onPressed: (){
+                  },
+                ),
+                MaterialButton(
+                  child: const Text('详情'),
+                  onPressed: (){
+                  },
+                ),
+              ],
+            ),
+          ),
+        ),),
+      ],
+    );
+  }
+
+  @override
+  int get selectedRowCount {
+    return 0;
+  }
+
+  @override
+  bool get isRowCountApproximate {
+    return false;
+  }
+
+  @override
+  int get rowCount {
+    return data.length;
+  }
+
 }

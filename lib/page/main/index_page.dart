@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uk_manager/page/adv/list/adv_list_page.dart';
 import 'package:uk_manager/page/curriculum/list/curriculum_page.dart';
 
 import '../edu/list/edu_list_page.dart';
@@ -16,8 +17,8 @@ class _IndexPageState extends State<IndexPage> {
   List<String> menuList = [
     '课程管理',
     '私教管理',
-    '用户管理',
     '广告管理',
+    '用户管理',
     '直播管理',
     '会员管理',
   ];
@@ -34,46 +35,49 @@ class _IndexPageState extends State<IndexPage> {
           automaticallyImplyLeading: false,
         ),
         body: Padding(
-          padding: EdgeInsets.all(10),
+          padding: const EdgeInsets.symmetric(vertical: 10),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              SingleChildScrollView(
-                child: Column(children: [
-                  Container(
-                    width: 100,
-                    height: 100,
-                    color: Colors.red,
-                  ),
-                  Text('管理员...'),
+              SizedBox(
+                width: 150,
+                child: SingleChildScrollView(
+                  child: Column(children: [
+                    Container(
+                      width: 100,
+                      height: 100,
+                      color: Colors.red,
+                    ),
+                    Text('管理员...'),
 
-                  TextButton(onPressed: (){}, child: Text('退出')),
+                    TextButton(onPressed: (){}, child: Text('退出')),
 
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Column(
-                    children: List.generate(menuList.length, (index) {
-                      return InkWell(
-                        onTap: () {
-                          setState(() {
-                            currentIndex = index;
-                          });
-                          controller.jumpToPage(index);
-                        },
-                        child: Container(
-                          color:
-                          currentIndex == index ? Colors.orange : Colors.white,
-                          height: 50,
-                          width: 100,
-                          alignment: Alignment.center,
-                          child: Text(menuList[index]),
-                        ),
-                      );
-                    }),
-                  )
-                ]),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Column(
+                      children: List.generate(menuList.length, (index) {
+                        return InkWell(
+                          onTap: () {
+                            setState(() {
+                              currentIndex = index;
+                            });
+                            controller.jumpToPage(index);
+                          },
+                          child: Container(
+                            color:
+                            currentIndex == index ? Colors.orange : Colors.white,
+                            height: 50,
+                            width: 150,
+                            alignment: Alignment.center,
+                            child: Text(menuList[index]),
+                          ),
+                        );
+                      }),
+                    )
+                  ]),
+                ),
               ),
               const SizedBox(width: 10,),
               Expanded(
@@ -82,7 +86,7 @@ class _IndexPageState extends State<IndexPage> {
                     children: const [
                       CurriculumPage(),
                       EduListPage(),
-                      CurriculumPage(),
+                      AdvListPage(),
                       CurriculumPage(),
                       CurriculumPage(),
                       CurriculumPage(),

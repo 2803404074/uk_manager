@@ -1,46 +1,59 @@
 
+
 import 'package:flutter/material.dart';
 import 'package:uk_manager/router/main_routers.dart';
 
-import '../bean/user.dart';
+import '../../../utils/dialog_util.dart';
+import '../../edu/bean/user.dart';
 
-class EduListPage extends StatefulWidget {
-  const EduListPage({Key? key}) : super(key: key);
+class AdvDetailsPage extends StatefulWidget {
+  final int tId;
+
+  const AdvDetailsPage({Key? key,required this.tId}) : super(key: key);
 
   @override
-  _EduListPageState createState() => _EduListPageState();
+  _AdvDetailsPageState createState() => _AdvDetailsPageState();
 }
 
-class _EduListPageState extends State<EduListPage> with AutomaticKeepAliveClientMixin {
-  List<User> _data = [];
+class _AdvDetailsPageState extends State<AdvDetailsPage> {
+
+
+  final List<User> _data = [];
 
   bool sortAscending = false;
+
+
   @override
   void initState() {
-    List.generate(100, (index) {
+    List.generate(10, (index) {
       _data.add(User('土豪$index', index % 50, index % 2 == 0 ? '男' : '女'));
     });
     super.initState();
   }
 
+
   @override
   Widget build(BuildContext context) {
-    super.build(context);
-
     return SingleChildScrollView(
       child: PaginatedDataTable(
         sortColumnIndex: 2,
         sortAscending: sortAscending,
-        header: Text('私教申请管理'),
+        header: Text('首页广告管理'),
+        actions: [
+          TextButton.icon(onPressed: (){
+            Navigator.pushNamed(context, MainRouter.advAddEditPage);
+          }, icon: Icon(Icons.add), label: Text('添加广告'))
+        ],
         columns: [
-          DataColumn(label: Text('用户')),
-          DataColumn(label: Text('申请类型')),
-          DataColumn(label: Text('申请时间'),onSort: (index,check){
+          DataColumn(label: Text('id')),
+          DataColumn(label: Text('封面')),
+          DataColumn(label: Text('标题'),onSort: (index,check){
             setState(() {
               sortAscending = check;
             });
           }),
-          DataColumn(label: Text('状态'),),
+          DataColumn(label: Text('链接'),),
+          DataColumn(label: Text('点击次数'),),
           DataColumn(label: SizedBox(
             width: 300,
             child: Center(
@@ -54,18 +67,14 @@ class _EduListPageState extends State<EduListPage> with AutomaticKeepAliveClient
 
   }
 
-  @override
-  // TODO: implement wantKeepAlive
-  bool get wantKeepAlive => true;
-
 }
 
 class MyDataTableSource extends DataTableSource {
+
   BuildContext context;
-  final List<User> data;
   MyDataTableSource(this.data,this.context);
 
-
+  final List<User> data;
 
   @override
   DataRow getRow(int index) {
@@ -77,6 +86,7 @@ class MyDataTableSource extends DataTableSource {
         DataCell(Text('${data[index].sex}')),
         DataCell(Text('${data[index].age}')),
         DataCell(Text('${data[index].age}')),
+        DataCell(Text('${data[index].age}')),
         DataCell(SizedBox(
           width: 300,
           child: Center(
@@ -84,19 +94,19 @@ class MyDataTableSource extends DataTableSource {
               mainAxisSize: MainAxisSize.min,
               children: [
                 MaterialButton(
-                  child: Text('通过'),
+                  child: const Text('修改'),
+                  onPressed: (){
+                    Navigator.pushNamed(context, MainRouter.advAddEditPage);
+                  },
+                ),
+                MaterialButton(
+                  child: const Text('下线'),
                   onPressed: (){
                   },
                 ),
                 MaterialButton(
-                  child: Text('不通过'),
+                  child: const Text('删除'),
                   onPressed: (){
-                  },
-                ),
-                MaterialButton(
-                  child: Text('详情'),
-                  onPressed: (){
-                    Navigator.pushNamed(context, MainRouter.eduDetailsPage,arguments: {'eId':12});
                   },
                 ),
               ],
@@ -121,6 +131,4 @@ class MyDataTableSource extends DataTableSource {
   int get rowCount {
     return data.length;
   }
-
 }
-

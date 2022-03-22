@@ -47,7 +47,7 @@ class _WelcomePageState extends State<WelcomePage> {
           Align(
             alignment: Alignment.center,
             child: Container(
-              width: 400,
+              width: 500,
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
@@ -108,7 +108,7 @@ class _WelcomePageState extends State<WelcomePage> {
                       child: Container(
                         alignment: Alignment.center,
                         width: double.infinity,
-                        margin: const EdgeInsets.only(top: 20),
+                        margin: const EdgeInsets.only(top: 30,bottom: 20),
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
