@@ -1,15 +1,16 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:uk_manager/page/adv/model/adv_model.dart';
 import 'package:uk_manager/router/main_routers.dart';
-
-import '../../../utils/dialog_util.dart';
+import 'package:uk_manager/widget/u_image.dart';
 import '../../edu/bean/user.dart';
 
 class AdvDetailsPage extends StatefulWidget {
   final int tId;
-
-  const AdvDetailsPage({Key? key,required this.tId}) : super(key: key);
+  final String tName;
+  const AdvDetailsPage({Key? key,required this.tId,required this.tName}) : super(key: key);
 
   @override
   _AdvDetailsPageState createState() => _AdvDetailsPageState();
@@ -17,17 +18,8 @@ class AdvDetailsPage extends StatefulWidget {
 
 class _AdvDetailsPageState extends State<AdvDetailsPage> {
 
-
-  final List<User> _data = [];
-
-  bool sortAscending = false;
-
-
   @override
   void initState() {
-    List.generate(10, (index) {
-      _data.add(User('土豪$index', index % 50, index % 2 == 0 ? '男' : '女'));
-    });
     super.initState();
   }
 
@@ -35,34 +27,35 @@ class _AdvDetailsPageState extends State<AdvDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: PaginatedDataTable(
-        sortColumnIndex: 2,
-        sortAscending: sortAscending,
-        header: Text('首页广告管理'),
-        actions: [
-          TextButton.icon(onPressed: (){
-            Navigator.pushNamed(context, MainRouter.advAddEditPage);
-          }, icon: Icon(Icons.add), label: Text('添加广告'))
-        ],
-        columns: [
-          DataColumn(label: Text('id')),
-          DataColumn(label: Text('封面')),
-          DataColumn(label: Text('标题'),onSort: (index,check){
-            setState(() {
-              sortAscending = check;
-            });
-          }),
-          DataColumn(label: Text('链接'),),
-          DataColumn(label: Text('点击次数'),),
-          DataColumn(label: SizedBox(
-            width: 300,
-            child: Center(
-              child: Text('操作'),
-            ),
-          ),numeric: true),
-        ],
-        source: MyDataTableSource(_data,context),
-      ),
+      child: ChangeNotifierProvider(create: (context)=>AdvModel(context,widget.tId),child: Consumer<AdvModel>(
+        builder: (context,model,child){
+          return PaginatedDataTable(
+            dataRowHeight: 100,
+            header: Text(widget.tName),
+            actions: [
+              TextButton.icon(onPressed: (){
+                Navigator.pushNamed(context, MainRouter.advAddEditPage,arguments: {'model':model});
+              }, icon: const Icon(Icons.add), label: const Text('添加广告'))
+            ],
+            columns: const [
+              DataColumn(label: Text('id')),
+              DataColumn(label: Text('类型'),),
+              DataColumn(label: Text('发布时间'),),
+              DataColumn(label: Text('封面')),
+              DataColumn(label: Text('标题')),
+              DataColumn(label: Text('链接'),),
+              DataColumn(label: Text('点击次数'),),
+              DataColumn(label: SizedBox(
+                width: 300,
+                child: Center(
+                  child: Text('操作'),
+                ),
+              ),numeric: true),
+            ],
+            source: MyDataTableSource(model,context),
+          );
+        },
+      ),),
     );
 
   }
@@ -71,22 +64,26 @@ class _AdvDetailsPageState extends State<AdvDetailsPage> {
 
 class MyDataTableSource extends DataTableSource {
 
+  AdvModel advModel;
   BuildContext context;
-  MyDataTableSource(this.data,this.context);
+  MyDataTableSource(this.advModel,this.context);
 
-  final List<User> data;
 
   @override
   DataRow getRow(int index) {
-
+    var data = advModel.data[index];
     return DataRow.byIndex(
       index: index,
       cells: [
-        DataCell(Text('${data[index].name}')),
-        DataCell(Text('${data[index].sex}')),
-        DataCell(Text('${data[index].age}')),
-        DataCell(Text('${data[index].age}')),
-        DataCell(Text('${data[index].age}')),
+        DataCell(Text('${data.id}')),
+        DataCell(Text('${data.local}')),
+        DataCell(Text('${data.createdAt}')),
+        DataCell(
+          UImage('${data.cover}')
+        ),
+        DataCell(Text('${data.title}')),
+        DataCell(Text('${data.linkUrl}')),
+        DataCell(Text('${data.clickNum}')),
         DataCell(SizedBox(
           width: 300,
           child: Center(
@@ -129,6 +126,6 @@ class MyDataTableSource extends DataTableSource {
 
   @override
   int get rowCount {
-    return data.length;
+    return advModel.data.length;
   }
 }

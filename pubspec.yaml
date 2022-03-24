@@ -34,6 +34,8 @@ dependencies:
     path: ./comment
   httplib:
     path: ./httplib
+  image_picker: ^0.8.4+11
+
   cached_network_image: ^3.2.0
 
 

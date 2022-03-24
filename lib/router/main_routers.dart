@@ -40,9 +40,10 @@ class MainRouter {
       ),
       advDetailsPage: (context, {arguments}) => AdvDetailsPage(
         tId: arguments['tId'],
+        tName: arguments['tName'],
       ),
-      advAddEditPage: (context, {arguments}) => const AdvAddEditPage(
-
+      advAddEditPage: (context, {arguments}) => AdvAddEditPage(
+        model: arguments['model'],
       ),
 
     };

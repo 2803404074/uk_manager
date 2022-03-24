@@ -19,22 +19,35 @@ class Adv_type_vo {
       this.version,});
 
   Adv_type_vo.fromJson(dynamic json) {
-    createAt = json['createAt'];
-    creatorId = json['creatorId'];
-    deleted = json['deleted'];
-    id = json['id'];
-    status = json['status'];
-    typeName = json['typeName'];
-    updatedAt = json['updatedAt'];
-    version = json['version'];
+    print('内容:$json');
+    try{
+      createAt = json['createdAt'];
+
+      creatorId = json['creatorId'];
+
+      deleted = json['deleted'];
+
+      id = json['id'];
+
+      status = json['status'];
+
+      typeName = json['typeName'];
+
+      updatedAt = json['updatedAt'];
+
+      version = json['version'];
+    }catch(e){
+      print('解析异常:${e.toString()}');
+    }
+
   }
-  int? createAt;
+  String? createAt;
   int? creatorId;
   int? deleted;
   int? id;
   int? status;
   String? typeName;
-  int? updatedAt;
+  String? updatedAt;
   int? version;
 
   Map<String, dynamic> toJson() {
