@@ -44,6 +44,7 @@ class MainRouter {
       ),
       advAddEditPage: (context, {arguments}) => AdvAddEditPage(
         model: arguments['model'],
+        vo: arguments['vo'],
       ),
 
     };

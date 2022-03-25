@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:comment/const/app_config.dart';
 import 'package:dio/dio.dart';
@@ -108,17 +109,20 @@ class HttpModel with IHttpProxy {
     required Map<String, dynamic> parameters,
     Options? options,
     CancelToken? cancelToken,
-    bool? jsonRequest = false,
+    bool? jsonRequest,
         Function(String message)? errCallBack,
     Function(int progress, int total)? onSendProgress,
   }) {
+    print('表单请求11111');
     if(isEnableDialog) {
       _iView?.loading();
     }
     Object map;
-    if (jsonRequest == null) {
+    if (jsonRequest == null || !jsonRequest) {
       map = FormData.fromMap(parameters);
+      print('表单请求');
     } else {
+      print('表单请求2222');
       map = json.encode(parameters);
     }
     return _dio.post(path,
@@ -137,6 +141,19 @@ class HttpModel with IHttpProxy {
   }
 
   @override
+  Future<BaseRes> upload(String path, {required Uint8List uInt8list})async {
+    var map = FormData.fromMap({
+      'file':MultipartFile.fromBytes(uInt8list),
+    });
+    try{
+      var response = await _dio.post(path, data: map);
+      return  _fetchSuccessEvent(response.data);
+    }catch(e){
+      return BaseRes(data:'',message: e.toString(),code: -1);
+    }
+  }
+
+  @override
   Future<BaseRes> download(String path,
       {required String dir,
       Map<String, dynamic>? parameters,
@@ -152,7 +169,6 @@ class HttpModel with IHttpProxy {
       }
       onReceiveProgress?.call(received, total);
     }).then((value) {
-
       return _fetchSuccessEvent(value.data);
     }).onError((error, stackTrace) {
       _fetchErrEvent(error);
@@ -174,4 +190,6 @@ class HttpModel with IHttpProxy {
   void enableDialog(bool enable) {
     isEnableDialog = enable;
   }
+
+
 }

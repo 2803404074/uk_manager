@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:dio/src/cancel_token.dart';
 import 'package:dio/src/options.dart';
 import 'package:httplib/base/base_res.dart';
@@ -99,6 +101,11 @@ class HttpProxy implements IHttpProxy {
   @override
   void enableDialog(bool enable) {
     _iHttpProxy.enableDialog(enable);
+  }
+
+  @override
+  Future<BaseRes> upload(String path, {required Uint8List uInt8list}) {
+    return _iHttpProxy.upload(path, uInt8list: uInt8list);
   }
 
 }

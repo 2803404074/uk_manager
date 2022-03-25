@@ -17,12 +17,23 @@ class AdvModel extends BaseModel{
 
 
   void getAdvList(){
+    data.clear();
     HttpProxy.httpProxy.get(Api.getAdvList,parameters: {'advTypeId':tId}).then((value) {
       print('相应:${value.data}');
       if(value.code == 200){
         value.data.forEach((element) {
           data.add(Adv_vo.fromJson(element));
         });
+        notifyListeners();
+      }
+    });
+  }
+
+  void offAdv(int index,int status){
+    HttpProxy.httpProxy.post(Api.offAdv,parameters: {'advId':data[index].id,'status':status}).then((value) {
+      print('相应:${value.data}');
+      if(value.code == 200){
+        data[index].status = status;
         notifyListeners();
       }
     });

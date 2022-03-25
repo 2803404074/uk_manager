@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:dio/dio.dart';
 import 'package:httplib/base/base_res.dart';
 import 'package:httplib/view/i_view.dart';
@@ -49,6 +51,12 @@ abstract class IHttpProxy {
     CancelToken? cancelToken,
     Function(int received,int total)? onReceiveProgress,
   });
+
+  Future<BaseRes> upload(
+      String path,
+      {
+        required Uint8List uInt8list,
+      });
 
   void changeBaseUrl(String url);
 

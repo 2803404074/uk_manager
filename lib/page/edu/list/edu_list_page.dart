@@ -1,5 +1,6 @@
-
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:uk_manager/page/edu/model/edu_model.dart';
 import 'package:uk_manager/router/main_routers.dart';
 
 import '../bean/user.dart';
@@ -11,98 +12,104 @@ class EduListPage extends StatefulWidget {
   _EduListPageState createState() => _EduListPageState();
 }
 
-class _EduListPageState extends State<EduListPage> with AutomaticKeepAliveClientMixin {
-  List<User> _data = [];
-
+class _EduListPageState extends State<EduListPage> {
   bool sortAscending = false;
-  @override
-  void initState() {
-    List.generate(100, (index) {
-      _data.add(User('土豪$index', index % 50, index % 2 == 0 ? '男' : '女'));
-    });
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
 
-    return SingleChildScrollView(
-      child: PaginatedDataTable(
-        sortColumnIndex: 2,
-        sortAscending: sortAscending,
-        header: Text('私教申请管理'),
-        columns: [
-          DataColumn(label: Text('用户')),
-          DataColumn(label: Text('申请类型')),
-          DataColumn(label: Text('申请时间'),onSort: (index,check){
-            setState(() {
-              sortAscending = check;
-            });
-          }),
-          DataColumn(label: Text('状态'),),
-          DataColumn(label: SizedBox(
-            width: 300,
-            child: Center(
-              child: Text('操作'),
-            ),
-          ),numeric: true),
-        ],
-        source: MyDataTableSource(_data,context),
+
+    return ChangeNotifierProvider(
+      create: (context) => EduModel(context),
+      child: SingleChildScrollView(
+        child: Consumer<EduModel>(
+          builder: (context, model, child) {
+            return PaginatedDataTable(
+              sortColumnIndex: 2,
+              sortAscending: sortAscending,
+              header: Text('私教申请管理'),
+              columns: [
+                DataColumn(label: Text('用户')),
+                DataColumn(label: Text('申请类型')),
+                DataColumn(
+                    label: Text('申请时间'),
+                    onSort: (index, check) {
+                      setState(() {
+                        sortAscending = check;
+                      });
+                    }),
+                DataColumn(
+                  label: Text('状态'),
+                ),
+                DataColumn(
+                    label: SizedBox(
+                      width: 300,
+                      child: Center(
+                        child: Text('操作'),
+                      ),
+                    ),
+                    numeric: true),
+              ],
+              source: MyDataTableSource(model, context),
+            );
+          },
+        ),
       ),
     );
-
   }
 
-  @override
-  // TODO: implement wantKeepAlive
-  bool get wantKeepAlive => true;
 
 }
 
 class MyDataTableSource extends DataTableSource {
   BuildContext context;
-  final List<User> data;
-  MyDataTableSource(this.data,this.context);
+  EduModel model;
 
-
+  MyDataTableSource(this.model, this.context);
 
   @override
   DataRow getRow(int index) {
-
+    var data = model.data;
     return DataRow.byIndex(
       index: index,
       cells: [
-        DataCell(Text('${data[index].name}')),
-        DataCell(Text('${data[index].sex}')),
-        DataCell(Text('${data[index].age}')),
-        DataCell(Text('${data[index].age}')),
-        DataCell(SizedBox(
-          width: 300,
-          child: Center(
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                MaterialButton(
-                  child: Text('通过'),
-                  onPressed: (){
-                  },
-                ),
-                MaterialButton(
-                  child: Text('不通过'),
-                  onPressed: (){
-                  },
-                ),
-                MaterialButton(
-                  child: Text('详情'),
-                  onPressed: (){
-                    Navigator.pushNamed(context, MainRouter.eduDetailsPage,arguments: {'eId':12});
-                  },
-                ),
-              ],
+        DataCell(Text('${data[index].nickName}')),
+        DataCell(Text(data[index].applicationType == 0?'个人':'机构')),
+        DataCell(Text('${data[index].createdAt}')),
+        DataCell(Text(data[index].status == 0?'未审批':data[index].status == 1?'通过':'未通过')),
+        DataCell(
+          SizedBox(
+            width: 300,
+            child: Center(
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if(data[index].status == 0 || data[index].status == 2)
+                    MaterialButton(
+                      child: Text('通过'),
+                      onPressed: () {
+                        model.pass(index, 1);
+                      },
+                    ),
+                  if(data[index].status == 0 || data[index].status == 1)
+                    MaterialButton(
+                      child: Text('不通过'),
+                      onPressed: () {
+                        model.pass(index, 2);
+                      },
+                    ),
+                  MaterialButton(
+                    child: Text('详情'),
+                    onPressed: () {
+                      Navigator.pushNamed(context, MainRouter.eduDetailsPage,
+                          arguments: {'eId': 12});
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
-        ),),
+        ),
       ],
     );
   }
@@ -119,8 +126,6 @@ class MyDataTableSource extends DataTableSource {
 
   @override
   int get rowCount {
-    return data.length;
+    return model.data.length;
   }
-
 }
-

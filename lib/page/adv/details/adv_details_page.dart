@@ -24,6 +24,9 @@ class _AdvDetailsPageState extends State<AdvDetailsPage> {
   }
 
 
+  Widget titleView(String str){
+    return Text(str);
+  }
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -37,14 +40,15 @@ class _AdvDetailsPageState extends State<AdvDetailsPage> {
                 Navigator.pushNamed(context, MainRouter.advAddEditPage,arguments: {'model':model});
               }, icon: const Icon(Icons.add), label: const Text('添加广告'))
             ],
-            columns: const [
-              DataColumn(label: Text('id')),
-              DataColumn(label: Text('类型'),),
-              DataColumn(label: Text('发布时间'),),
-              DataColumn(label: Text('封面')),
-              DataColumn(label: Text('标题')),
-              DataColumn(label: Text('链接'),),
-              DataColumn(label: Text('点击次数'),),
+            columns:  [
+              DataColumn(label: titleView('id')),
+              DataColumn(label: titleView('类型'),),
+              DataColumn(label: titleView('发布时间'),),
+              DataColumn(label: titleView('封面')),
+              DataColumn(label: titleView('标题')),
+              DataColumn(label: titleView('链接'),),
+              DataColumn(label: titleView('点击次数'),),
+              DataColumn(label: titleView('状态'),),
               DataColumn(label: SizedBox(
                 width: 300,
                 child: Center(
@@ -76,14 +80,21 @@ class MyDataTableSource extends DataTableSource {
       index: index,
       cells: [
         DataCell(Text('${data.id}')),
-        DataCell(Text('${data.local}')),
+        DataCell(Text(data.local == 0?'本地广告':'第三方广告')),
         DataCell(Text('${data.createdAt}')),
         DataCell(
-          UImage('${data.cover}')
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 5),
+            child: AspectRatio(
+              aspectRatio: 9/16,
+              child: UImage('${data.cover}'),
+            ),
+          )
         ),
         DataCell(Text('${data.title}')),
         DataCell(Text('${data.linkUrl}')),
-        DataCell(Text('${data.clickNum}')),
+        DataCell(Text('${data.clickNum??0}')),
+        DataCell(Text(data.status == 0?'正常':'已下线',style: TextStyle(color: data.status == 0?Colors.green:Colors.grey),)),
         DataCell(SizedBox(
           width: 300,
           child: Center(
@@ -93,17 +104,13 @@ class MyDataTableSource extends DataTableSource {
                 MaterialButton(
                   child: const Text('修改'),
                   onPressed: (){
-                    Navigator.pushNamed(context, MainRouter.advAddEditPage);
+                    Navigator.pushNamed(context, MainRouter.advAddEditPage,arguments: {'model':advModel,'vo':data});
                   },
                 ),
                 MaterialButton(
-                  child: const Text('下线'),
+                  child: Text(data.status == 0?'下线':'上线'),
                   onPressed: (){
-                  },
-                ),
-                MaterialButton(
-                  child: const Text('删除'),
-                  onPressed: (){
+                    advModel.offAdv(index,data.status == 0?1:0);
                   },
                 ),
               ],

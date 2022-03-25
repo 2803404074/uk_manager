@@ -8,8 +8,8 @@ class Api {
   static const String getCurriculumTypeList = 'curriculuma/type/list';
 
   ///----------------入驻管理----------------
-
-
+  static const String getApplicantList = 'web/applicant/page/list';
+  static const String passApplicant = 'web/applicant/pass';
 
 
 
@@ -24,6 +24,8 @@ class Api {
 
   ///----------------广告管理----------------
   static const String addAdv = 'web/adv/addAdv';
+  static const String updateAdv = 'web/adv/updateAdv';
   static const String getAdvList = 'web/adv/getAdvList';
   static const String getAdvDetails = 'web/adv/advDetails';
+  static const String offAdv = 'web/adv/offAdv';
 }
