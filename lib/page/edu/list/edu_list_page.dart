@@ -102,7 +102,7 @@ class MyDataTableSource extends DataTableSource {
                     child: Text('详情'),
                     onPressed: () {
                       Navigator.pushNamed(context, MainRouter.eduDetailsPage,
-                          arguments: {'eId': 12});
+                          arguments: {'eId': data[index].id,'index':index,'model':model});
                     },
                   ),
                 ],

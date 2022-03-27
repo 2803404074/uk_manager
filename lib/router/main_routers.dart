@@ -37,6 +37,8 @@ class MainRouter {
       ),
       eduDetailsPage: (context, {arguments}) => EduDetailsPage(
         eId: arguments['eId'],
+        index: arguments['index'],
+        model: arguments['model'],
       ),
       advDetailsPage: (context, {arguments}) => AdvDetailsPage(
         tId: arguments['tId'],

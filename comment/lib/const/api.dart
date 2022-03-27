@@ -8,8 +8,10 @@ class Api {
   static const String getCurriculumTypeList = 'curriculuma/type/list';
 
   ///----------------入驻管理----------------
+  static const String applicantDetails = 'web/applicant/applicantDetails';
   static const String getApplicantList = 'web/applicant/page/list';
   static const String passApplicant = 'web/applicant/pass';
+
 
 
 

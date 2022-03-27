@@ -56,19 +56,18 @@ class EduModel extends BaseModel{
   /// 0未审核
   /// 1通过
   /// 2不通过
-  void pass(int index,int status){
+  Future<bool> pass(int index,int status)async{
     var map={
       'id':data[index].id,
       'status':status,
       'message':'尊敬${data[index].nickName}您好,您${status==1?'已':'未'}通过私教认证',
     };
-    HttpProxy.httpProxy.post(Api.passApplicant, parameters: map).then((value){
-      if(value.code == 200){
-        data[index].status = status;
-        notifyListeners();
-      }
-    }).onError((error, stackTrace){
-
-    });
+    var value = await HttpProxy.httpProxy.post(Api.passApplicant, parameters: map);
+    if(value.code == 200){
+      data[index].status = status;
+      notifyListeners();
+      return true;
+    }
+    return false;
   }
 }
