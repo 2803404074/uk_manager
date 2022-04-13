@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uk_manager/page/adv/list/adv_list_page.dart';
+import 'package:uk_manager/page/curriculum/curriculum_index.dart';
 import 'package:uk_manager/page/curriculum/list/curriculum_page.dart';
 
 import '../edu/list/edu_list_page.dart';
@@ -84,7 +85,7 @@ class _IndexPageState extends State<IndexPage> {
                   child: PageView(
                     controller: controller,
                     children: const [
-                      CurriculumPage(),
+                      CurriculumIndex(),
                       EduListPage(),
                       AdvListPage(),
                       CurriculumPage(),

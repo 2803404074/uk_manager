@@ -26,116 +26,121 @@ class _CurriculumPageState extends State<CurriculumPage>
     super.build(context);
     return ChangeNotifierProvider(
       create: (context) => CurriculumModel(context),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text('课程管理',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),),
-          const SizedBox(height: 10,),
-          Selector<CurriculumModel,int>(builder: (context,value,child){
-            var model = context.read<CurriculumModel>();
-            return SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: List.generate(
-                    model.oneList.length,
-                        (index) => InkWell(
-                      onTap: (){
-                        model.changeIndex(0, index);
-                      },
-                      child: Container(
-                        child: Text(model.oneList[index]),
-                        margin: const EdgeInsets.only(left: 10),
-                        padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            color: value == index?Colors.orange:Colors.grey),
-                      ),
-                    )),
-              ),
-            );
-          }, selector: (context,model)=>model.oneCurrentIndex),
-          const SizedBox(
-            height: 10,
-          ),
-          Selector<CurriculumModel,int>(builder: (context,value,child){
-            var model = context.read<CurriculumModel>();
-            return SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: List.generate(
-                    model.towList.length,
-                        (index) => InkWell(
-                      onTap: (){
-                        model.changeIndex(1, index);
-                      },
-                      child: Container(
-                        child: Text(model.towList[index]),
-                        margin: const EdgeInsets.only(left: 10),
-                        padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            color: value == index?Colors.orange:Colors.grey),
-                      ),
-                    )),
-              ),
-            );
-          }, selector: (context,model)=>model.towCurrentIndex),
-          const SizedBox(
-            height: 10,
-          ),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('课程审核'),
+        ),
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text('课程管理',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),),
+            const SizedBox(height: 10,),
+            Selector<CurriculumModel,int>(builder: (context,value,child){
+              var model = context.read<CurriculumModel>();
+              return SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: List.generate(
+                      model.oneList.length,
+                          (index) => InkWell(
+                        onTap: (){
+                          model.changeIndex(0, index);
+                        },
+                        child: Container(
+                          child: Text(model.oneList[index]),
+                          margin: const EdgeInsets.only(left: 10),
+                          padding:
+                          const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: value == index?Colors.orange:Colors.grey),
+                        ),
+                      )),
+                ),
+              );
+            }, selector: (context,model)=>model.oneCurrentIndex),
+            const SizedBox(
+              height: 10,
+            ),
+            Selector<CurriculumModel,int>(builder: (context,value,child){
+              var model = context.read<CurriculumModel>();
+              return SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: List.generate(
+                      model.towList.length,
+                          (index) => InkWell(
+                        onTap: (){
+                          model.changeIndex(1, index);
+                        },
+                        child: Container(
+                          child: Text(model.towList[index]),
+                          margin: const EdgeInsets.only(left: 10),
+                          padding:
+                          const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: value == index?Colors.orange:Colors.grey),
+                        ),
+                      )),
+                ),
+              );
+            }, selector: (context,model)=>model.towCurrentIndex),
+            const SizedBox(
+              height: 10,
+            ),
 
-          Selector<CurriculumModel,int>(builder: (context,value,child){
-            var model = context.read<CurriculumModel>();
-            return SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: List.generate(
-                    model.threeList.length,
-                        (index) => InkWell(
-                      onTap: (){
-                        model.changeIndex(2, index);
-                      },
-                      child: Container(
-                        child: Text(model.threeList[index]),
-                        margin: const EdgeInsets.only(left: 10),
-                        padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            color: value == index?Colors.orange:Colors.grey),
+            Selector<CurriculumModel,int>(builder: (context,value,child){
+              var model = context.read<CurriculumModel>();
+              return SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: List.generate(
+                      model.threeList.length,
+                          (index) => InkWell(
+                        onTap: (){
+                          model.changeIndex(2, index);
+                        },
+                        child: Container(
+                          child: Text(model.threeList[index]),
+                          margin: const EdgeInsets.only(left: 10),
+                          padding:
+                          const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: value == index?Colors.orange:Colors.grey),
+                        ),
+                      )),
+                ),
+              );
+            }, selector: (context,model)=>model.threeCurrentIndex),
+            const SizedBox(
+              height: 10,
+            ),
+            Expanded(child:  Consumer<CurriculumModel>(builder: (context,model,child){
+              return SingleChildScrollView(
+                child: PaginatedDataTable(
+                  columns: const [
+                    DataColumn(label: SizedBox(
+                      width: 50,
+                      child: Center(child: Text('封面'),),)),
+                    DataColumn(label: Text('标题')),
+                    DataColumn(label: Text('作者'),),
+                    DataColumn(label: Text('发布时间')),
+                    DataColumn(label: Text('状态'),),
+                    DataColumn(label: SizedBox(
+                      width: 300,
+                      child: Center(
+                        child: Text('操作'),
                       ),
-                    )),
-              ),
-            );
-          }, selector: (context,model)=>model.threeCurrentIndex),
-          const SizedBox(
-            height: 10,
-          ),
-          Expanded(child:  Consumer<CurriculumModel>(builder: (context,model,child){
-            return SingleChildScrollView(
-              child: PaginatedDataTable(
-                columns: const [
-                  DataColumn(label: SizedBox(
-                    width: 50,
-                    child: Center(child: Text('封面'),),)),
-                  DataColumn(label: Text('标题')),
-                  DataColumn(label: Text('作者'),),
-                  DataColumn(label: Text('发布时间')),
-                  DataColumn(label: Text('状态'),),
-                  DataColumn(label: SizedBox(
-                    width: 300,
-                    child: Center(
-                      child: Text('操作'),
-                    ),
-                  ),numeric: true),
-                ],
-                source: MyDataTableSource(model.curriculumList),
-              ),
-            );
-          },))
-        ],
+                    ),numeric: true),
+                  ],
+                  source: MyDataTableSource(model.curriculumList),
+                ),
+              );
+            },))
+          ],
+        ),
       )
     );
   }

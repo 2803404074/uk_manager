@@ -7,10 +7,36 @@ class Api {
   ///获取课程分类列表
   static const String getCurriculumTypeList = 'curriculuma/type/list';
 
+
+  ///--------------首页推荐模块管理--------------
+
+  ///添加首页推荐模块
+  static const String addModular = 'web/curriculum/addModular';
+
+  ///移除首页推荐某个模块
+  static const String removeModular = 'web/curriculum/removeModular';
+
+  ///修改模块内容
+  static const String updateModular = 'web/curriculum/updateModular';
+
+  ///推荐模块列表
+  static const String allModular = 'web/curriculum/allModular';
+
+  ///添加或删除模块的课程
+  static const String addAndRemoveModularCurriculum = 'web/curriculum/addAndRemoveModularCurriculum';
+
+
+
+
+
+
   ///----------------入驻管理----------------
   static const String applicantDetails = 'web/applicant/applicantDetails';
   static const String getApplicantList = 'web/applicant/page/list';
   static const String passApplicant = 'web/applicant/pass';
+
+
+
 
 
 
