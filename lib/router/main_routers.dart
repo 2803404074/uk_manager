@@ -4,6 +4,7 @@ import 'package:uk_manager/page/main/welcome_page.dart';
 
 import '../page/adv/details/adv_add_edit_page.dart';
 import '../page/adv/details/adv_details_page.dart';
+import '../page/curriculum/category/category_page.dart';
 import '../page/curriculum/details/curriculum_details_page.dart';
 import '../page/curriculum/list/curriculum_page.dart';
 import '../page/curriculum/modular/curriculum_modular_page.dart';
@@ -20,6 +21,9 @@ class MainRouter {
 
   ///课程审核
   static const String curriculumPage = 'curriculumPage';
+
+  ///课程分类
+  static const String categoryPage = 'categoryPage';
 
   ///课程首页推荐模块
   static const String curriculumModularPage = 'curriculumModularPage';
@@ -56,6 +60,8 @@ class MainRouter {
             vo: arguments['vo'],
           ),
       curriculumPage: (context, {arguments}) => const CurriculumPage(),
+
+      categoryPage: (context, {arguments}) => const CategoryPage(),
       curriculumModularPage: (context, {arguments}) => const CurriculumModularPage(),
 
 

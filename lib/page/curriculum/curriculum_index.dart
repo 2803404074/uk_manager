@@ -17,7 +17,7 @@ class CurriculumIndex extends StatelessWidget {
       children: [
         InkWell(
           onTap: (){
-            Navigator.pushNamed(context, MainRouter.curriculumModularPage);
+            Navigator.pushNamed(context, MainRouter.categoryPage);
           },
           child: Container(
             alignment: Alignment.center,
