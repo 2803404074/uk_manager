@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:uk_manager/router/main_routers.dart';
 
+import '../curriculum/modular/cu_list_page.dart';
 import 'index_page.dart';
 
 class WelcomePage extends StatefulWidget {
@@ -103,7 +104,9 @@ class _WelcomePageState extends State<WelcomePage> {
                   if(codeLogin)
                     InkWell(
                       onTap: (){
-                        Navigator.pushNamed(context, MainRouter.indexPage);
+                        //Navigator.pushNamed(context, MainRouter.indexPage);
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>const CuListPage(title: '撒',id: 0,)));
+
                       },
                       child: Container(
                         alignment: Alignment.center,

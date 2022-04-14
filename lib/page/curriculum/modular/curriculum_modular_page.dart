@@ -72,6 +72,10 @@ class CurriculumModularPage extends StatelessWidget {
 
               const Expanded(child: SizedBox()),
 
+              const SizedBox(width: 10,),
+              MaterialButton(onPressed: () {
+
+              }, child: const Text('课程列表',style: TextStyle(fontWeight: FontWeight.bold),),color: Colors.green,textColor: Colors.white,),
 
 
               const SizedBox(width: 10,),
