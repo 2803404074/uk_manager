@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uk_manager/page/curriculum/category/CategoryModel.dart';
+import 'package:uk_manager/provider/base_model.dart';
+import 'package:uk_manager/utils/dialog_util.dart';
 
 class CategoryPage extends StatefulWidget {
   const CategoryPage({Key? key}) : super(key: key);
@@ -13,34 +15,6 @@ class CategoryPage extends StatefulWidget {
 
 class _CategoryPageState extends State<CategoryPage> {
 
-  int num=0;
-
-  void add(){
-
-
-    for(int i=0;i<=100;i++){
-      num+=i;
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    setState(() {
-
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,15 +23,26 @@ class _CategoryPageState extends State<CategoryPage> {
       appBar: AppBar(
         title: const Text('课程分类'),
       ),
-      floatingActionButton: TextButton(
-        child: const Text('开始计算'),
-        onPressed: (){
-          add();
+      body: Consumer<CategoryModel>(
+        builder: (context,model,child){
+          if(model.status == LoadStatus.loading){
+            return Center(
+              child: DialogUtil.getInstance().loadingView(),
+            );
+          }
+          if(model.status == LoadStatus.err){
+            return Center(
+              child: Text(model.errStr??''),
+            );
+          }
+
+          return ListView(
+
+          );
+
+
         },
-      ),
-      body: Center(
-        child: Text('$num',style: TextStyle(fontSize: 50,fontWeight: FontWeight.bold,color: Colors.red),),
-      ),
+      )
     ),
     );
   }
