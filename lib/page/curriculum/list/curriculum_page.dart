@@ -33,7 +33,6 @@ class _CurriculumPageState extends State<CurriculumPage>
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('课程管理',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),),
             const SizedBox(height: 10,),
             Selector<CurriculumModel,int>(builder: (context,value,child){
               var model = context.read<CurriculumModel>();
