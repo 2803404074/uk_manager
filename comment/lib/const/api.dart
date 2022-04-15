@@ -5,7 +5,7 @@ class Api {
   static const String getCurriculumList = 'curriculum/page/list';
 
   ///获取课程分类列表
-  static const String getCurriculumTypeList = 'curriculuma/type/list';
+  static const String getCurriculumTypeList = 'web/curriculum/typeList';
 
 
   ///--------------首页推荐模块管理--------------
@@ -24,8 +24,6 @@ class Api {
 
   ///添加或删除模块的课程
   static const String addAndRemoveModularCurriculum = 'web/curriculum/addAndRemoveModularCurriculum';
-
-
 
 
 

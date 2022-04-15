@@ -12,7 +12,7 @@ class EduListPage extends StatefulWidget {
   _EduListPageState createState() => _EduListPageState();
 }
 
-class _EduListPageState extends State<EduListPage> {
+class _EduListPageState extends State<EduListPage>with AutomaticKeepAliveClientMixin {
   bool sortAscending = false;
 
   @override
@@ -57,6 +57,10 @@ class _EduListPageState extends State<EduListPage> {
       ),
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 
 
 }

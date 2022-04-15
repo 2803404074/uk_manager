@@ -104,8 +104,8 @@ class _WelcomePageState extends State<WelcomePage> {
                   if(codeLogin)
                     InkWell(
                       onTap: (){
-                        //Navigator.pushNamed(context, MainRouter.indexPage);
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>const CuListPage(title: '撒',id: 0,)));
+                        Navigator.pushNamed(context, MainRouter.indexPage);
+                        //Navigator.push(context, MaterialPageRoute(builder: (context)=>const CuListPage(title: '撒',id: 0,)));
 
                       },
                       child: Container(
