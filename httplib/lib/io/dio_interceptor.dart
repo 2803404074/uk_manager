@@ -14,8 +14,10 @@ class DioInterceptor extends InterceptorsWrapper{
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     /// 在这里，你可以添加请求前添加token，加密，解密等操作
     var nowToken = TokenHelp.getInstance().getToken();
+
+    var token = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhdXRoIiwiVVNFUl9JRCI6MTUsIlVTRVJfTkFNRSI6Iumfs-S5kOmYn-mVv--8jemYv-acqOacqCIsImV4cCI6MTY1MTMxMzUzNSwiaWF0IjoxNjQ4NzIxNTM1fQ.ysUmw8BurEgnbiTAkkhBFeavqxBSfSBsAHNiit_Fsgo3uiuvbE2fIsyd7bEPPCGIDk_ZZYJvzeh_FpKFQSpgfQ";
     BuildConfig.println('token====>$nowToken',tag: 'request');
-    options.headers.addAll({'Authorization':'$nowToken'});
+    options.headers.addAll({'Authorization':token});
     super.onRequest(options, handler);
   }
 

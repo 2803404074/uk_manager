@@ -117,10 +117,12 @@ class _CurriculumModularPageState extends State<CurriculumModularPage> with Auto
 
                   const SizedBox(width: 10,),
                   MaterialButton(onPressed: () {
-
-                    DialogUtil.getInstance().showMessageAlertDialog(context, '删除后该模块下的视频将移除，是否继续?',callBack: (){
-                      model.delete(index);
-                    });
+                    DialogUtil.getInstance().showMessageAlertDialog(context,'删除后该模块下的视频将移除，是否继续?',[
+                      ActionTextItem('取消'),
+                      ActionTextItem('确定',clickCallBack: (){
+                        model.delete(index);
+                      }),
+                    ]);
                   }, child: const Text('删除',),color: Colors.red,textColor: Colors.white,),
                   const SizedBox(width: 10,),
                   MaterialButton(onPressed: () {

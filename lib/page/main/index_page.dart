@@ -28,9 +28,9 @@ class _IndexPageState extends State<IndexPage> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Container(
-                width: 200,
                 color: Colors.black87,
                 height: double.infinity,
+                width: 200,
                 child: SingleChildScrollView(
                   child: Column(children: [
                     Container(

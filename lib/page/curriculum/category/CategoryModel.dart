@@ -1,21 +1,22 @@
 
-
 import 'dart:convert';
-import 'dart:developer';
+import 'dart:html';
 
 import 'package:comment/const/api.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:httplib/io/http_proxy.dart';
 import 'package:uk_manager/provider/base_model.dart';
 import 'package:uk_manager/utils/dialog_util.dart';
-
+import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 class TypeVo{
-  int id;
-  String icon;
-  String name;
+  int? id;
+  String? icon;
+  String? name;
   TypeVo({required this.id,required this.icon,required this.name});
 
   factory TypeVo.fromJson(dynamic json){
+    print('内容:$json');
     return TypeVo(
       id: json['id'],
       icon: json['icon'],
@@ -27,20 +28,51 @@ class TypeVo{
 
 class CategoryModel extends BaseModel{
 
+  dynamic uploadedImage;
   List<TypeVo> list = [];
   CategoryModel(BuildContext context) : super(context){
     getData();
   }
 
+  final requestDto = <String,dynamic>{};
+
+  void addImage()async{
+    FileUploadInputElement? uploadInput = FileUploadInputElement();
+    uploadInput.click();
+    uploadInput.onChange.listen((e) {
+      final files = uploadInput.files;
+      if(files == null)return;
+      if (files.length == 1) {
+        final file = files[0];
+        FileReader reader =  FileReader();
+        reader.onLoadEnd.listen((e) {
+          uploadedImage = reader.result;
+          requestDto['image'] =  MultipartFile.fromBytes(uploadedImage,filename: 'test.jpg');
+          notifyListeners();
+        });
+
+        reader.onError.listen((fileEvent) {
+          requestDto['image']=null;
+        });
+
+        reader.readAsArrayBuffer(file);
+      }
+    });
+  }
+
   void getData()async{
-    HttpProxy.httpProxy.get(Api.getCurriculumTypeList,parameters: {}).then((res){
+    HttpProxy.httpProxy.get(Api.getCurriculumTypeList).then((res){
       if(res.code == 200){
         print('返回信息:${res.data}');
-        res.data.forEach((element) {
-          print('返回信息1111');
-          list.add(TypeVo.fromJson(element));
-          print('返回信息:2222');
-        });
+        print('返回信息:${res.data.length}');
+        try{
+          json.decode(res.data).forEach((element) {
+            list.add(TypeVo.fromJson(element));
+          });
+        }catch(e){
+          print('异常:${e.toString()}');
+        }
+
         success();
       }else{
         err(str: res.message);
@@ -52,9 +84,14 @@ class CategoryModel extends BaseModel{
 
 
   void addType(){
-    HttpProxy.httpProxy.get(Api.offAdv).then((value){
+    print('请求内容:$requestDto');
+    if(requestDto['image'] == null || requestDto['name'].isEmpty){
+      return;
+    }
+    HttpProxy.httpProxy.post(Api.addType,parameters: requestDto).then((value){
       if(value.code == 200){
-        list.insert(0, value.data);
+        list.insert(0, TypeVo.fromJson(value.data));
+        notifyListeners();
       }else{
         DialogUtil.getInstance().showErrDialog(context,errTips: value.message);
       }
@@ -64,9 +101,10 @@ class CategoryModel extends BaseModel{
   }
 
   void deleteType(int index){
-    HttpProxy.httpProxy.get(Api.offAdv).then((value){
+    HttpProxy.httpProxy.post(Api.deleteType,parameters: {'id':list[index].id}).then((value){
       if(value.code == 200){
         list.removeAt(index);
+        notifyListeners();
       }else{
         DialogUtil.getInstance().showErrDialog(context,errTips: value.message);
       }

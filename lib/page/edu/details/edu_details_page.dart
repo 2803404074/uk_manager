@@ -156,7 +156,9 @@ class _EduDetailsPageState extends State<EduDetailsPage> {
                                 widget.model.pass(widget.index, 1).then((value){
                                   if(value){
                                     Navigator.pop(context);
-                                    DialogUtil.getInstance().showMessageAlertDialog(context, '操作成功');
+                                    DialogUtil.getInstance().showMessageAlertDialog(context,'操作成功',[
+                                      ActionTextItem('确定'),
+                                    ]);
                                     setState(() {
                                       applicantVo?.status = 1;
                                     });
@@ -188,7 +190,9 @@ class _EduDetailsPageState extends State<EduDetailsPage> {
                                 widget.model.pass(widget.index, 2).then((value){
                                   if(value){
                                     Navigator.pop(context);
-                                    DialogUtil.getInstance().showMessageAlertDialog(context, '操作成功');
+                                    DialogUtil.getInstance().showMessageAlertDialog(context,'操作成功',[
+                                      ActionTextItem('确定'),
+                                    ]);
                                     setState(() {
                                       applicantVo?.status = 1;
                                     });

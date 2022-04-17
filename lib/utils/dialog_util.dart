@@ -6,9 +6,11 @@ import '../widget/u_image.dart';
 class ActionTextItem {
   Widget? icon;
   String title;
+  Color? buttonColor;
+  Color? buttonTxtColor;
   Function? clickCallBack;
 
-  ActionTextItem(this.title, {this.clickCallBack,this.icon});
+  ActionTextItem(this.title, {this.clickCallBack,this.icon,this.buttonColor,this.buttonTxtColor});
 }
 
 class DialogUtil {
@@ -128,33 +130,28 @@ class DialogUtil {
         });
   }
 
-  void showMessageAlertDialog(BuildContext context, String content,
-      {String? title, Function? callBack}) {
+  void showMessageAlertDialog(BuildContext context, String content,List<ActionTextItem> item,
+      {String? title}) {
     showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
             title: Text(title ?? '提示'),
             content: Text(content),
-            actions: [
-              TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: Text(
-                    '取消',
-                    style: TextStyle(color: Colors.grey[400]),
-                  )),
-              TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                    callBack?.call();
-                  },
-                  child: Text(
-                    '确定',
-                    style: TextStyle(color: Colors.grey[600]),
-                  ))
-            ],
+            actions: List.generate(item.length, (index){
+              var vo = item[index];
+              return MaterialButton(
+                onPressed: (){
+                  Navigator.pop(context);
+                  vo.clickCallBack?.call();
+                },
+                child: Text(
+                  vo.title,
+                ),
+                color: vo.buttonColor??Colors.black,
+                textColor: vo.buttonTxtColor??Colors.white,
+              );
+            })
           );
         });
   }
