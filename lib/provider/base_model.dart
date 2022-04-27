@@ -50,6 +50,8 @@ class BaseModel extends ChangeNotifier {
   void setLoadMore(bool loadMore) {
     loadMore ? page++ : page = 1;
   }
+
+
   @override
   void dispose() {
     hasDisPos = true;

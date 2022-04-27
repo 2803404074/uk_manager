@@ -52,8 +52,13 @@ class MyApp extends StatelessWidget {
       title: 'together',
       theme: ThemeData(
         primarySwatch: createMaterialColor(Colors.black),
+        primaryColor: Colors.white,
         textTheme: const TextTheme(
           bodyText1: TextStyle(color: Colors.white)
+        ),
+        buttonTheme: const ButtonThemeData(
+          buttonColor: Colors.blue,
+          textTheme: ButtonTextTheme.primary
         )
       ),
       initialRoute: MainRouter.welcomePage,

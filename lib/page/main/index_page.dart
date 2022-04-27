@@ -4,6 +4,7 @@ import 'package:uk_manager/page/adv/list/adv_list_page.dart';
 import 'package:uk_manager/page/curriculum/list/curriculum_page.dart';
 import 'package:uk_manager/page/curriculum/modular/curriculum_modular_page.dart';
 import 'package:uk_manager/page/main/index_model.dart';
+import 'package:uk_manager/page/person/user_list_page.dart';
 import '../curriculum/category/category_page.dart';
 import '../edu/list/edu_list_page.dart';
 
@@ -82,7 +83,7 @@ class _IndexPageState extends State<IndexPage> {
                       EduListPage(key: PageStorageKey<String>('EduListPage'),),
 
                       //用户管理
-                      SizedBox(),
+                      UserListPage(key: PageStorageKey<String>('UserListPage'),),
 
                       AdvListPage(key: PageStorageKey<String>('AdvListPage'),),
 
