@@ -2,6 +2,7 @@ import 'package:comment/const/api.dart';
 import 'package:flutter/material.dart';
 import 'package:httplib/io/http_proxy.dart';
 import 'package:uk_manager/provider/base_model.dart';
+import 'package:uk_manager/utils/dialog_util.dart';
 
 class ModularModel extends BaseModel {
   List<dynamic> modularList = [];
@@ -54,19 +55,21 @@ class ModularModel extends BaseModel {
   }
 
   void update(int index,String title, int type,{int? status}) {
-    loading();
+    DialogUtil.getInstance().showLoadDialog(context);
     HttpProxy.httpProxy.post(Api.updateModular,
         parameters: {
-      'id':modularList[index]['id'],
+      'modularId':modularList[index]['id'],
       'title': title, 'type': type,'status':status??0}).then((value) {
+        Navigator.pop(context);
       if (value.code == 200) {
         modularList[index] = value.data;
         success();
       } else {
-        err(str: value.message);
+        DialogUtil.getInstance().showErrDialog(context,errTips:value.message );
       }
     }).onError((error, stackTrace) {
-      err(str: error.toString());
+      Navigator.pop(context);
+      DialogUtil.getInstance().showErrDialog(context,errTips:error.toString() );
     });
   }
 

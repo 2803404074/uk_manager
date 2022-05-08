@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uk_manager/page/curriculum/modular/modular_model.dart';
 import 'package:uk_manager/provider/base_model.dart';
+import 'package:uk_manager/router/main_routers.dart';
 import 'package:uk_manager/utils/dialog_util.dart';
 
 class CurriculumModularPage extends StatefulWidget {
@@ -99,7 +100,7 @@ class _CurriculumModularPageState extends State<CurriculumModularPage> with Auto
 
                   const SizedBox(width: 10,),
                   MaterialButton(onPressed: () {
-
+                    Navigator.pushNamed(context, MainRouter.cuListPage,arguments: {'id':data['id'],'title':data['title']});
                   }, child: const Text('课程列表',style: TextStyle(fontWeight: FontWeight.bold),),color: Colors.green,textColor: Colors.white,),
 
 

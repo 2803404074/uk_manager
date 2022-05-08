@@ -49,6 +49,7 @@ class CurriculumVo {
       this.videos, 
       this.comments,
     this.hotsNumber,
+    this.updatedAt
   });
 
   CurriculumVo.fromJson(dynamic json) {
@@ -84,6 +85,7 @@ class CurriculumVo {
     hasUp = json['hasUp'];
     hasFans = json['hasFans'];
     hasCollect = json['hasCollect'];
+    updatedAt = json['updatedAt'];
   }
   int? id;
   int? userId;
@@ -110,6 +112,7 @@ class CurriculumVo {
   bool? hasUp;
   bool? hasCollect;
   List<VideoVo>? videos;
+  String? updatedAt;
   dynamic comments;
 
   Map<String, dynamic> toJson() {

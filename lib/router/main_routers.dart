@@ -7,6 +7,7 @@ import '../page/adv/details/adv_details_page.dart';
 import '../page/curriculum/category/category_page.dart';
 import '../page/curriculum/details/curriculum_details_page.dart';
 import '../page/curriculum/list/curriculum_page.dart';
+import '../page/curriculum/modular/cu_list_page.dart';
 import '../page/curriculum/modular/curriculum_modular_page.dart';
 import '../page/edu/details/edu_details_page.dart';
 
@@ -27,6 +28,10 @@ class MainRouter {
 
   ///课程首页推荐模块
   static const String curriculumModularPage = 'curriculumModularPage';
+
+  ///模块课程列表
+  static const String cuListPage = 'cuListPage';
+
 
 
 
@@ -63,6 +68,7 @@ class MainRouter {
 
       categoryPage: (context, {arguments}) => const CategoryPage(),
       curriculumModularPage: (context, {arguments}) => const CurriculumModularPage(),
+      cuListPage: (context, {arguments}) =>  CuListPage(id: arguments['id'],title: arguments['title'],),
 
 
     };

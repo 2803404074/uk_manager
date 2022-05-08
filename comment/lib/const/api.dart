@@ -2,7 +2,8 @@ class Api {
   ///----------------用户----------------
   ///用户列表，多条件
   static const String userList = 'web/user/list';
-
+  ///发消息
+  static const String sendMessage = 'web/user/sendMessage';
 
 
 
@@ -42,6 +43,11 @@ class Api {
 
   ///添加或删除模块的课程
   static const String addAndRemoveModularCurriculum = 'web/curriculumModular/addAndRemoveModularCurriculum';
+
+  ///某模块下的课程列表
+  static const String curriculumModularList = 'web/curriculumModular/curriculumModularList';
+
+
 
 
 

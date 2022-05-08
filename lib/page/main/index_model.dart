@@ -60,7 +60,7 @@ class IndexModel extends BaseModel{
 
 
     var vipMenuList = <SubMenu>[];
-    advMenuList.add(SubMenu('会员管理',6));
+    vipMenuList.add(SubMenu('会员管理',6));
     menuMasterList.add(MenuVo('会员管理', vipMenuList));
 
     var oderMenuList = <SubMenu>[];

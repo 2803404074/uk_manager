@@ -8,7 +8,7 @@ class BuildConfig{
   static const DEBUG = true;
   //static const DEV_URL = 'http://118.31.229.127:8092/api/';
   //static const DEV_URL = 'http://192.168.42.145:8092/api/';
-  static const DEV_URL = 'http://192.168.3.62:8092/api/';
+  static const DEV_URL = 'http://192.168.3.193:8092/api/';
   static const PRO_URL = 'http://tuhaolili.top/';
   static const QN_URL = 'http://tuhaolili.top/';
   static const nimKey = '9d9090599c2a191186b7f3be790083ef';

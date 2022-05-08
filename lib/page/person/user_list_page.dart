@@ -7,15 +7,27 @@ import 'package:httplib/io/http_proxy.dart';
 import 'package:provider/provider.dart';
 import 'package:uk_manager/provider/base_model.dart';
 import 'package:comment/bean/res/user_vo.dart';
+import 'package:uk_manager/utils/dialog_util.dart';
 import 'package:uk_manager/widget/u_image.dart';
 
 import '../../widget/base_view.dart';
 
-class UserListPage extends StatelessWidget {
+class UserListPage extends StatefulWidget {
   const UserListPage({Key? key}) : super(key: key);
 
   @override
+  State<UserListPage> createState() => _UserListPageState();
+}
+
+class _UserListPageState extends State<UserListPage> with AutomaticKeepAliveClientMixin{
+
+
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     return ChangeNotifierProvider(
       create: (context) => _Model(context),
       child: Padding(
@@ -78,7 +90,9 @@ class UserListPage extends StatelessWidget {
             const SizedBox(height: 10,),
 
             Expanded(child: Selector<_Model,int?>(builder: (context,value,child){
-              var list = context.read<_Model>().userList;
+              var model = context.read<_Model>();
+              var list = model.userList;
+
               if(value==null || value.isNaN){
                 return const SizedBox();
               }
@@ -114,6 +128,11 @@ class UserListPage extends StatelessWidget {
                           ),
 
                         const Expanded(child: SizedBox()),
+                        MaterialButton(onPressed: (){
+                          DialogUtil.getInstance().showInputAlertDialog(context, '消息', (inputText){
+                            model.sendMessage(message: inputText,uId: vo.id);
+                          });
+                        },child: const Text('发消息'),),
                         SizedBox(width: 200,child: Center(child: Text('${vo.createdAt}'),),)
 
 
@@ -132,6 +151,8 @@ class UserListPage extends StatelessWidget {
     );
   }
 }
+
+
 
 class _Model extends BaseModel {
   List<UserVo>? userList;
@@ -183,6 +204,17 @@ class _Model extends BaseModel {
         notifyListeners();
       } else {}
     }).onError((error, stackTrace) {});
+  }
+
+  void sendMessage({required String message,int? uId}){
+    if(message.isEmpty)return;
+    HttpProxy.httpProxy.post(Api.sendMessage, parameters: {'msg':message,'toUserId':uId}).then((value){
+      DialogUtil.getInstance().showMessageAlertDialog(context, value.message, [
+        ActionTextItem('确定')
+      ]);
+    }).onError((error, stackTrace){
+      DialogUtil.getInstance().showErrDialog(context,errTips: error.toString());
+    });
   }
 }
 
